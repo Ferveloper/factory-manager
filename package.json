@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "format:test": "prettier **/*.{js,html,md,css,json} --list-different",
+    "format:write": "prettier **/*.{js,html,md,css,json} --write"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "eslint": "^7.22.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
   }
 }
