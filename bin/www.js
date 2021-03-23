@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+'use strict';
 
 require('console-stamp')(console, {
-    format: ':date(dd/mm/yy HH:MM:ss.l) :label'
+  format: ':date(dd/mm/yy HH:MM:ss.l) :label'
 });
 
 /**
