@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
-const moment = require('moment');
 require('console-stamp')(console, {
-  formatter: function () {
-    return moment().format('DD/MM/YY HH:mm:ss.SSS');
-  }
+    format: ':date(dd/mm/yy HH:MM:ss.l) :label'
 });
 
 /**
