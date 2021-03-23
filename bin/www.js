@@ -1,43 +1,32 @@
 'use strict';
 
+// Set env variables and add timestamp prefix to console messages
 require('dotenv').config();
 require('console-stamp')(console, {
   format: ':date(dd/mm/yy HH:MM:ss.l) :label'
 });
 
-/**
- * Module dependencies.
- */
-
 const app = require('../app');
 const http = require('http');
-
-/**
- * Get port from environment and store in Express.
- */
-
 const { expressPort } = require('../config');
+
 const port = normalizePort(expressPort || '3000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+// Async immediately invoked function expression (IIFE) to start server after successful DB connection
+(async () => {
+  // Connect to MongoDB
+  await require('../loaders/connectMongoose').connectMongoose();
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+  // Listen on provided port, on all network interfaces.
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+})();
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
+// Normalize a port into a number, string, or false.
 function normalizePort(val) {
   const port = parseInt(val, 10);
 
@@ -54,10 +43,7 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
+// Event listener for HTTP server "error" event.
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -82,14 +68,12 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+// Event listener for HTTP server "listening" event.
 
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
+  console.log('Server listening on ' + bind);
 }
