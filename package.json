@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
+    "debug:win": "set DEBUG=express:* & npm run dev",
+    "debug:linux": "DEBUG=express:* npm run dev",
     "format:test": "prettier **/*.{js,html,md,css,json} --list-different",
     "format:write": "prettier **/*.{js,html,md,css,json} --write"
   },
