@@ -1,12 +1,13 @@
 'use strict';
 
+const createError = require('http-errors');
 const ordersService = require('./orders.service');
 
 module.exports = {
-  listOrders: function (req, res, next) {
+  listOrders: async function (req, res, next) {
     try {
       console.log('List orders request received');
-      const orders = ordersService.list();
+      const orders = await ordersService.list();
       res.json({
         success: true,
         result: orders
@@ -16,11 +17,13 @@ module.exports = {
       next(err);
     }
   },
-  getOrder: function (req, res, next) {
+  getOrder: async function (req, res, next) {
     try {
       console.log('Get order request received:', req.params.id);
       const id = req.params.id;
-      const order = ordersService.get(id);
+      const order = await ordersService.get(id);
+      if (order.notFound) throw createError(404, 'Order not found');
+      if (order.hasNoAssemblyCode) throw createError(424, 'Order has no assembly code in its headers');
       res.json({
         success: true,
         result: order
@@ -30,13 +33,16 @@ module.exports = {
       next(err);
     }
   },
-  importOrder: function (req, res, next) {
+  importOrder: async function (req, res, next) {
     try {
       console.log('Import order request received:', req.params.id);
       const orderId = req.params.id;
-      const importedOrder = ordersService.import(orderId);
+      const importedOrder = await ordersService.import(orderId);
+      if (importedOrder.isAlreadyImported) throw createError(400, 'Order is already imported');
+      if (importedOrder.notFound) throw createError(404, 'Order not found');
       res.json({
         success: true,
+        message: `Order ${orderId} was successfully imported`,
         result: importedOrder
       });
     } catch (err) {
@@ -44,14 +50,16 @@ module.exports = {
       next(err);
     }
   },
-  updateOrder: function (req, res, next) {
+  updateOrder: async function (req, res, next) {
     try {
       console.log('Update order request received:', req.params.id);
       const orderId = req.params.id;
       const orderDTO = req.body;
-      const updatedOrder = ordersService.update(orderId, orderDTO);
+      const updatedOrder = await ordersService.update(orderId, orderDTO);
+      if (!updatedOrder) throw createError(404, 'Order not found');
       res.json({
         success: true,
+        message: `Order ${orderId} was successfully updated`,
         result: updatedOrder
       });
     } catch (err) {
@@ -59,13 +67,15 @@ module.exports = {
       next(err);
     }
   },
-  deleteOrder: function (req, res, next) {
+  deleteOrder: async function (req, res, next) {
     try {
       console.log('Delete order request received:', req.params.id);
       const orderId = req.params.id;
-      const deletedOrder = ordersService.delete(orderId);
+      const deletedOrder = await ordersService.delete(orderId);
+      if (!deletedOrder) throw createError(404, 'Order not found');
       res.json({
         success: true,
+        message: `Order ${orderId} was successfully deleted`,
         result: deletedOrder
       });
 
