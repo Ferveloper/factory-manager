@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 
 const processRoutesSchema = new mongoose.Schema({
+  _id: false,
   510: { type: mongoose.Mixed, required: true, default: '' },
   520: { type: mongoose.Mixed, required: true, default: '' },
   530: { type: mongoose.Mixed, required: true, default: '' },
