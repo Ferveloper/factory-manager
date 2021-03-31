@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 
 const orderHeadersSchema = new mongoose.Schema({
+  _id: false,
   documentNo: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   itemNo: { type: Number, required: true },
@@ -20,6 +21,7 @@ const orderHeadersSchema = new mongoose.Schema({
 });
 
 const orderLinesSchema = new mongoose.Schema({
+  _id: false,
   documentNo: { type: String, required: true },
   lineNo: { type: Number, required: true },
   type: { type: String, required: true },
@@ -33,11 +35,13 @@ const orderLinesSchema = new mongoose.Schema({
 });
 
 const routeCodeSchema = new mongoose.Schema({
+  _id: false,
   value: { type: Number, required: true },
   isActive: { type: Boolean, required: true, default: true }
 });
 
 const processRoutesSchema = new mongoose.Schema({
+  _id: false,
   510: routeCodeSchema,
   520: routeCodeSchema,
   530: routeCodeSchema,
@@ -58,11 +62,11 @@ const processRoutesSchema = new mongoose.Schema({
   920: routeCodeSchema
 });
 
-const orderSchema = mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  isImported: { type: Boolean, required: true, default: true },
-  headers: { type: [orderHeadersSchema], require: true },
-  lines: { type: [orderLinesSchema], require: true },
+const orderSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true, immutable: true, default: function () { return this.headers.documentNo; } },
+  isImported: { type: Boolean, required: true, immutable: true, default: true },
+  headers: { type: orderHeadersSchema, required: true },
+  lines: { type: [orderLinesSchema], required: true },
   processRoutes: { type: processRoutesSchema, required: true }
 });
 
