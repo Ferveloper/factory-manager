@@ -11,6 +11,7 @@
     "format:write": "prettier **/*.{js,html,md,css,json} --write"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "console-stamp": "^3.0.0-rc4.3",
     "cookie-parser": "~1.4.4",
     "dotenv": "^8.2.0",

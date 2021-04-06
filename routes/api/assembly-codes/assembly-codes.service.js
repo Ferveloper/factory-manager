@@ -4,7 +4,7 @@ const AssemblyCodeModel = require('./assembly-codes.model');
 
 module.exports = {
   list: async function () {
-    const assemblyCodes = await AssemblyCodeModel.find();
+    const assemblyCodes = await AssemblyCodeModel.find({}, { '_id': 0 });
     return assemblyCodes;
   },
   update: async function (id, assemblyCodeDTO) {
