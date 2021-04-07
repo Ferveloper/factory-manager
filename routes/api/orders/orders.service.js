@@ -5,7 +5,7 @@ const OrderModel = require('./orders.model');
 const AssemblyCodeModel = require('../assembly-codes/assembly-codes.model');
 const { webServiceUrl } = require('../../../config');
 
-const convertKeysTocamel = function (obj) {
+const convertKeysToCamelCase = function (obj) {
   const camelCasedObj = {};
   for (const key in obj) {
     const newKey = key.charAt(0).toLowerCase() + key.slice(1);
@@ -47,13 +47,13 @@ module.exports = {
         id: orderId,
         isImported: false,
         headers: {
-          ...convertKeysTocamel(headers),
+          ...convertKeysToCamelCase(headers),
           machine: assemblyCode.machine,
           batchLitres: assemblyCode.batchLitres,
           quantityToAssemble: assemblyCode.batchLitres
         },
         lines: lines
-          .map(line => convertKeysTocamel(line))
+          .map(line => convertKeysToCamelCase(line))
           .map(line => {
             if (typeof line.quantity === 'string') {
               line.quantity = parseFloat(line.quantity.replace(/\./g, '').replace(/,/g, '.'));
@@ -99,13 +99,13 @@ module.exports = {
       id,
       isImported: false,
       headers: {
-        ...convertKeysTocamel(headers),
+        ...convertKeysToCamelCase(headers),
         machine: assemblyCode.machine,
         batchLitres: assemblyCode.batchLitres,
         quantityToAssemble: assemblyCode.batchLitres
       },
       lines: lines
-        .map(line => convertKeysTocamel(line))
+        .map(line => convertKeysToCamelCase(line))
         .map(line => {
           if (typeof line.quantity === 'string') {
             line.quantity = parseFloat(line.quantity.replace(/\./g, '').replace(/,/g, '.'));
@@ -147,12 +147,12 @@ module.exports = {
       // id,
       // isImported: true,
       headers: {
-        ...convertKeysTocamel(headers),
+        ...convertKeysToCamelCase(headers),
         machine: assemblyCode.machine,
         batchLitres: assemblyCode.batchLitres
       },
       lines: lines
-        .map(line => convertKeysTocamel(line))
+        .map(line => convertKeysToCamelCase(line))
         .map(line => {
           if (typeof line.quantity === 'string') {
             line.quantity = parseFloat(line.quantity.replace(/\./g, '').replace(/,/g, '.'));
