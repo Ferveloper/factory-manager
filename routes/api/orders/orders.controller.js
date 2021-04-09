@@ -22,8 +22,7 @@ module.exports = {
       console.log('Get order request received:', req.params.id);
       const id = req.params.id;
       const order = await ordersService.get(id);
-      if (order.notFound) throw createError(404, 'Order not found');
-      if (order.hasNoAssemblyCode) throw createError(424, 'Order has no assembly code in its headers');
+      if (!order) throw createError(404, 'Order not found');
       res.json({
         success: true,
         result: order
