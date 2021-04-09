@@ -48,6 +48,14 @@ const assemblyCodeSchema = mongoose.Schema({
   processRoutes: { type: processRoutesSchema, required: true, default: '' }
 });
 
+assemblyCodeSchema.options.toObject = {
+  transform: function (doc, ret) {
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  }
+};
+
 const AssemblyCodeModel = mongoose.model('AssemblyCode', assemblyCodeSchema);
 
 module.exports = AssemblyCodeModel;

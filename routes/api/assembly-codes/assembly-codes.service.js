@@ -4,16 +4,27 @@ const AssemblyCodeModel = require('./assembly-codes.model');
 
 module.exports = {
   list: async function () {
-    const assemblyCodes = await AssemblyCodeModel.find({}, { '_id': 0 });
-    return assemblyCodes;
+    const assemblyCodes = await AssemblyCodeModel.find();
+    return assemblyCodes.map(doc => doc.toObject());
   },
-  update: async function (id, assemblyCodeDTO) {
-    const assemblyCodes = await AssemblyCodeModel.findOneAndUpdate({ id }, assemblyCodeDTO, { new: true });
-    return assemblyCodes;
+  get: async function (assemblyCodeId) {
+    const assemblyCode = await AssemblyCodeModel.findOne({ assemblyCode: assemblyCodeId });
+    return assemblyCode ? assemblyCode.toObject() : null;
   },
   create: async function (assemblyCodeDTO) {
-    let assemblyCode = await new AssemblyCodeModel(assemblyCodeDTO);
-    assemblyCode = await assemblyCode.save();
-    return assemblyCode;
+    const assemblyCode = await AssemblyCodeModel.create(assemblyCodeDTO);
+    return assemblyCode ? assemblyCode.toObject() : null;
+  },
+  update: async function (assemblyCodeId, assemblyCodeDTO) {
+    const assemblyCode = await AssemblyCodeModel.findOneAndUpdate({ assemblyCode: assemblyCodeId }, assemblyCodeDTO, { new: true, runValidators: true });
+    return assemblyCode ? assemblyCode.toObject() : null;
+  },
+  delete: async function (assemblyCodeId) {
+    const assemblyCode = await AssemblyCodeModel.findOneAndDelete({ assemblyCode: assemblyCodeId });
+    return assemblyCode ? assemblyCode.toObject() : null;
+  },
+  listMachines: async function () {
+    const assemblyCodes = await AssemblyCodeModel.find({}, 'machine');
+    return [...new Set(assemblyCodes.map(doc => doc.machine))];
   }
 };
