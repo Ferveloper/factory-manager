@@ -13,7 +13,6 @@ module.exports = {
         result: assemblyCodes
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -28,7 +27,6 @@ module.exports = {
         result: assemblyCode
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -43,7 +41,6 @@ module.exports = {
         result: newAssemblyCode
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -52,7 +49,6 @@ module.exports = {
       console.log('Update assembly code request received:', req.params.id);
       const assemblyCodeId = req.params.id;
       const assemblyCodeDTO = req.body;
-      console.log(assemblyCodeDTO);
       const updatedAssemblyCode = await assemblyCodesService.update(assemblyCodeId, assemblyCodeDTO);
       if (!updatedAssemblyCode) throw createError(404, `Assembly code ${assemblyCodeId} not found`);
       res.json({
@@ -61,7 +57,6 @@ module.exports = {
         result: updatedAssemblyCode
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -76,7 +71,6 @@ module.exports = {
         message: `Assembly code ${assemblyCodeId} was successfully deleted`,
         result: deletedAssemblyCode
       });
-
     } catch (err) {
       next(err);
     }
@@ -90,7 +84,6 @@ module.exports = {
         result: assemblyCodes
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   }
