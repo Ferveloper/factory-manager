@@ -13,7 +13,6 @@ module.exports = {
         result: orders
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -28,7 +27,6 @@ module.exports = {
         result: order
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -45,7 +43,6 @@ module.exports = {
         result: importedOrder
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -62,7 +59,6 @@ module.exports = {
         result: updatedOrder
       });
     } catch (err) {
-      console.error(err);
       next(err);
     }
   },
@@ -77,9 +73,7 @@ module.exports = {
         message: `Order ${orderId} was successfully deleted`,
         result: deletedOrder
       });
-
     } catch (err) {
-      console.error(err);
       next(err);
     }
   }
