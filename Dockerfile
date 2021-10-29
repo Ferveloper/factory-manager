@@ -23,7 +23,3 @@ COPY --chown=node:node . .
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
-
-# docker build -t sabesp-morungaba-be .
-# Windows: docker run --name sabesp-morungaba-be sabesp-morungaba-be
-# Linux: docker run --name sabesp-morungaba-be sabesp-morungaba-be
