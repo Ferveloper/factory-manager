@@ -71,7 +71,6 @@ module.exports = {
         message: `User ${username} was successfully deleted`,
         result: deletedUser
       });
-
     } catch (err) {
       next(err);
     }
